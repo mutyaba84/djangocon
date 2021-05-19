@@ -45,7 +45,7 @@
       <div class="column is-6">
         <h2 class="subtitle">String</h2>
 
-        <div class="todo">
+        <div class="string">
           <div class="card" v-for="Variable in Variables" v-if="Variable.status === 'String'" v-bind:key="Variable.id">
             <div class="card-content">{{Variable.name }}</div>
 
