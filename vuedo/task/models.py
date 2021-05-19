@@ -4,13 +4,12 @@ from django.db.models.deletion import CASCADE
 
 class Variable(models.Model):
     STRING = "string"
-    DONE = "done"
+    BOOLEAN = "boolean"
 
-    STATUS_CHOICES = ((STRING, "string"), (DONE, "Done"))
+    STATUS_CHOICES = ((STRING, "string"), (BOOLEAN, "boolean"))
 
-    name = models.CharField(max_length=255)
-    type = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default=STRING)
+    name = models.CharField(max_length=55)
+    type = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STRING)
 
     def __str__(self):
         return self.name
@@ -21,7 +20,7 @@ class BooleanValue(Variable):
 
 
 class StringValue(models.Model):
-    Value = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.Value
+        return self.name
