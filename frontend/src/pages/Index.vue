@@ -26,7 +26,7 @@
               <div class="select">
                 <select v-model="type">
                   <option value="string">string</option>
-                  <option value="done">Done</option>
+                  <option value="boolean">boolean</option>
                 </select>
               </div>
             </div>
@@ -50,16 +50,16 @@
             <div class="card-content">{{Variable.name }}</div>
 
             <footer class="card-footer">
-              <a class="card-footer-item" @click="setStatus(Variable.id, 'done')">Done</a>
+              <a class="card-footer-item" @click="setStatus(Variable.id, 'boolean')">boolean</a>
             </footer>
           </div>
         </div>
       </div>
       <div class="column is-6">
-        <h2 class="subtitle">Done</h2>
+        <h2 class="subtitle">boolean</h2>
 
-        <div class="done">
-          <div class="card" v-for="Variable in Variables" v-if="Variable.type === 'done'" v-bind:key="Variable.id">
+        <div class="boolean">
+          <div class="card" v-for="Variable in Variables" v-if="Variable.type === 'boolean'" v-bind:key="Variable.id">
             <div class="card-content">{{ Variable.name }}</div>
 
             <footer class="card-footer">
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-const API_URL = 'http://1270.0.1:8000/'
+const API_URL = 'http://127.0.0.1:8000/'
 import axios from 'axios'
 import { defineComponent, ref } from '@vue/composition-api';
 export default {
@@ -83,7 +83,7 @@ export default {
   data () {
     return {
       Variables: [],
-      name: '',
+      name: 'name',
     Variable: 'string'
     }
   },
@@ -121,7 +121,7 @@ export default {
             'type': this.status
           }
           this.Variable.push(newVariable)
-          this.name = ''
+          this.name = 'name'
           this.type = 'string'
         }).catch((error) => {
           console.log(error)
