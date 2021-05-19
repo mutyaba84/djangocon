@@ -1,5 +1,8 @@
 from django.contrib import admin
 
-from .models import Task
+from .models import Variable, BooleanValue, StringValue
 
-admin.site.register(Task)
+admin.site.register(Variable)
+admin.site.register(BooleanValue)
+
+admin.site.register(StringValue)

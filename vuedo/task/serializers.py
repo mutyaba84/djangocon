@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from .models import Task
+from .models import Variable
 
 
-class TaskSerializer(serializers.HyperlinkedModelSerializer):
+class VariableSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Task
-        fields = ('id', 'description', 'status')
+        model = Variable
+        fields = ('id', 'name', 'type')

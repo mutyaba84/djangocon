@@ -1,28 +1,31 @@
+
 <template>
 <q-page class="row items-center justify-evenly">
   <div class="home">
-    <h1 class="title">Xact</h1>
+   
 
     <hr>
 
     <div class="columns">
       <div class="column is-3 is-offset-3">
-        <form v-on:submit.prevent="addTask">
-          <h2 class="subtitle">Add task</h2>
+        <form v-on:submit.prevent="addVariable">
+          <h2 class="subtitle">Variable</h2>
 
-          <div class="field">
-            <label class="label">Description</label>
+          <div class="container-fluid">
+      
+            <label class="label">name</label>
             <div class="control">
-              <input class="input" type="text" v-model="description">
+              <input class="input" type="text" v-model="name">
             </div>
           </div>
+        
 
           <div class="field">
-            <label class="label">Status</label>
+            <label class="label">Type</label>
             <div class="control">
               <div class="select">
-                <select v-model="status">
-                  <option value="todo">To do</option>
+                <select v-model="type">
+                  <option value="string">string</option>
                   <option value="done">Done</option>
                 </select>
               </div>
@@ -40,14 +43,14 @@
 
     <div class="columns">
       <div class="column is-6">
-        <h2 class="subtitle">To do</h2>
+        <h2 class="subtitle">String</h2>
 
         <div class="todo">
-          <div class="card" v-for="task in tasks" v-if="task.status === 'todo'" v-bind:key="task.id">
-            <div class="card-content">{{ task.description }}</div>
+          <div class="card" v-for="Variable in Variables" v-if="Variable.status === 'String'" v-bind:key="Variable.id">
+            <div class="card-content">{{Variable.name }}</div>
 
             <footer class="card-footer">
-              <a class="card-footer-item" @click="setStatus(task.id, 'done')">Done</a>
+              <a class="card-footer-item" @click="setStatus(Variable.id, 'done')">Done</a>
             </footer>
           </div>
         </div>
@@ -56,11 +59,11 @@
         <h2 class="subtitle">Done</h2>
 
         <div class="done">
-          <div class="card" v-for="task in tasks" v-if="task.status === 'done'" v-bind:key="task.id">
-            <div class="card-content">{{ task.description }}</div>
+          <div class="card" v-for="Variable in Variables" v-if="Variable.type === 'done'" v-bind:key="Variable.id">
+            <div class="card-content">{{ Variable.name }}</div>
 
             <footer class="card-footer">
-              <a class="card-footer-item" @click="setStatus(task.id, 'todo')">To do</a>
+              <a class="card-footer-item" @click="setType(Variable.id, 'string')">String</a>
             </footer>
           </div>
         </div>
@@ -79,71 +82,71 @@ export default {
   name: 'Home',
   data () {
     return {
-      tasks: [],
-      description: '',
-      status: 'todo'
+      Variables: [],
+      name: '',
+    Variable: 'string'
     }
   },
   mounted () {
-    this.getTasks()
+    this.getVariable()
   },
   methods: {
-    getTasks() {
+    getVariables() {
       axios({
         method: 'get',
-        url: API_URL + 'tasks/',
+        url: API_URL + 'Variable/',
         auth: {
           username: 'admin',
           password: 'After7'
         }
-      }).then(response => this.tasks = response.data)
+      }).then(response => this.Variable = response.data)
     },
-    addTask() {
-      if (this.description) {
+    addVariable() {
+      if (this.name) {
         axios({
           method: 'post',
-          url: API_URL + 'tasks/',
+          url: API_URL + 'Variable/',
           data: {
-            description: this.description,
-            status: this.status
+            name: this.name,
+            type: this.type
           },
           auth: {
             username: 'admin',
             password: 'After7'
           }
         }).then((response) => {
-          let newTask = {
+          let newVariable = {
             'id': response.data.id,
-            'description': this.description,
-            'status': this.status
+            'name': this.name,
+            'type': this.status
           }
-          this.tasks.push(newTask)
-          this.description = ''
-          this.status = 'todo'
+          this.Variable.push(newVariable)
+          this.name = ''
+          this.type = 'string'
         }).catch((error) => {
           console.log(error)
         })
       }
     },
-    setStatus(task_id, status) {
-      const task = this.tasks.filter(task => task.id === task_id)[0]
-      const description = task.description
+    setStatus(Variable_id, type) {
+      const Variable = this.Variable.filter(Variable => Variable.id === Variable_id)[0]
+      const name = Variable.name
       axios({
         method: 'put',
-        url: API_URL + 'tasks/' + task_id + '/',
+        url: API_URL + 'Variable/' + Variable_id + '/',
         headers: {
           'Content-Type': 'application/json',
         },
         data: {
-          status: status,
-          description: description
+          type: type,
+          name: name
         },
         auth: {
           username: 'admin',
           password: 'After7'
         }
       }).then(() => {
-        task.status = status
+        Variable.type = type
       })
     }
   }
@@ -161,4 +164,3 @@ export default {
   opacity: 0.3;
 }
 </style>
-
